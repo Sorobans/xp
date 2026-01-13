@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from hottubz.neocities.org/internet-explorer by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 13 Jan 2026 02:51:28 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internet Explorer</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            font-family: 'Tahoma', sans-serif;
+            background: #ECE9D8;
+        }
+
+        .toolbar {
+            background: #ECE9D8;
+            padding: 5px;
+            border-bottom: 1px solid #999;
+        }
+
+        .address-bar {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px;
+            background: white;
+            border: 1px solid #999;
+        }
+
+        .address-bar img {
+            width: 16px;
+            height: 16px;
+        }
+
+        .address-bar input {
+            flex-grow: 1;
+            border: none;
+            outline: none;
+            font-family: 'Tahoma', sans-serif;
+            font-size: 12px;
+            background: transparent;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 5px;
+        }
+
+        .nav-button {
+            padding: 3px 10px;
+            background: linear-gradient(to bottom, #F6F6F6, #DCDBDB);
+            border: 1px solid #999;
+            cursor: pointer;
+            font-family: 'Tahoma', sans-serif;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .nav-button img {
+            width: 16px;
+            height: 16px;
+        }
+
+        .nav-button:active {
+            background: #E1E1E1;
+        }
+
+        #browser-content {
+            flex-grow: 1;
+            border: none;
+            width: 100%;
+            height: calc(100vh - 80px);
+        }
+    </style>
+</head>
+<body>
+    <div class="toolbar">
+        <div class="nav-buttons">
+            <button class="nav-button" onclick="goBack()">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAAbwAAAG8B8aLcQwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAB5SURBVDiNY2CgFWBkYGD4TwPzGBgYGP4zMDAIMDAwfGBgYPBHE/+ALg7CIIPuMzAw2DAwMPxnYGAQwKIGp1pigLqZGcUF6OGNITZq4KiBZBrIREcXGBgYPjIwMPwnI0x+YBNkxJGwkcMOWzpAzgvkGkItgHUyAgCuaBgR+zR/fwAAAABJRU5ErkJggg==" alt="Back">
+                Back
+            </button>
+            <button class="nav-button" onclick="goForward()">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAAbwAAAG8B8aLcQwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAB5SURBVDiNY2CgFWBkYGD4TwPzGBgYGP4zMDAIMDAwfGBgYPBHE/+ALg7CIIPuMzAw2DAwMPxnYGAQwKIGp1pigLqZGcUF6OGNITZq4KiBZBrIREcXGBgYPjIwMPwnI0x+YBNkxJGwkcMOWzpAzgvkGkItgHUyAgCuaBgR+zR/fwAAAABJRU5ErkJggg==" alt="Forward">
+                Forward
+            </button>
+            <button class="nav-button" onclick="goHome()">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAAbwAAAG8B8aLcQwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAB5SURBVDiNY2CgFWBkYGD4TwPzGBgYGP4zMDAIMDAwfGBgYPBHE/+ALg7CIIPuMzAw2DAwMPxnYGAQwKIGp1pigLqZGcUF6OGNITZq4KiBZBrIREcXGBgYPjIwMPwnI0x+YBNkxJGwkcMOWzpAzgvkGkItgHUyAgCuaBgR+zR/fwAAAABJRU5ErkJggg==" alt="Home">
+                Home
+            </button>
+        </div>
+        <div class="address-bar">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAAbwAAAG8B8aLcQwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAB5SURBVDiNY2CgFWBkYGD4TwPzGBgYGP4zMDAIMDAwfGBgYPBHE/+ALg7CIIPuMzAw2DAwMPxnYGAQwKIGp1pigLqZGcUF6OGNITZq4KiBZBrIREcXGBgYPjIwMPwnI0x+YBNkxJGwkcMOWzpAzgvkGkItgHUyAgCuaBgR+zR/fwAAAABJRU5ErkJggg==" alt="Address">
+            <input type="text" id="address-input" readonly>
+        </div>
+    </div>
+    <iframe id="browser-content" src="ie-home.html"></iframe>
+
+    <script>
+        const history = [];
+        let currentIndex = -1;
+
+        function updateAddressBar(url) {
+            document.getElementById('address-input').value = url;
+        }
+
+        function navigate(url) {
+            // Add to history
+            if (currentIndex < history.length - 1) {
+                history.splice(currentIndex + 1);
+            }
+            history.push(url);
+            currentIndex++;
+
+            // Update iframe and address bar
+            document.getElementById('browser-content').src = url;
+            updateAddressBar(url);
+        }
+
+        function navigateExternal(url) {
+            // Add to history
+            if (currentIndex < history.length - 1) {
+                history.splice(currentIndex + 1);
+            }
+            history.push(url);
+            currentIndex++;
+
+            // Update iframe and address bar
+            document.getElementById('browser-content').src = url;
+            updateAddressBar(url);
+        }
+
+        function goBack() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                const url = history[currentIndex];
+                document.getElementById('browser-content').src = url;
+                updateAddressBar(url);
+            }
+        }
+
+        function goForward() {
+            if (currentIndex < history.length - 1) {
+                currentIndex++;
+                const url = history[currentIndex];
+                document.getElementById('browser-content').src = url;
+                updateAddressBar(url);
+            }
+        }
+
+        function goHome() {
+            navigate('ie-home.html');
+        }
+
+        // Initialize with home page
+        goHome();
+
+        // Listen for messages from child frames
+        window.addEventListener('message', function(event) {
+            if (event.data.type === 'navigate') {
+                navigate(event.data.url);
+            } else if (event.data.type === 'navigateExternal') {
+                navigateExternal(event.data.url);
+            }
+        });
+    </script>
+</body>
+
+<!-- Mirrored from hottubz.neocities.org/internet-explorer by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 13 Jan 2026 02:51:28 GMT -->
+</html> 

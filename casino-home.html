@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from hottubz.neocities.org/casino-home by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 13 Jan 2026 02:51:29 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XP Casino - Home</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            font-family: 'Tahoma', sans-serif;
+            background: url('landscape-4k-bliss-windows-xp-wallpaper-preview.jpg') center/cover no-repeat;
+            transition: background-image 0.5s ease-in-out;
+        }
+        #casino-container {
+            height: 100%;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+            color: white;
+        }
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            width: 100%;
+            margin-top: 20px;
+        }
+        .game-card {
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid #ffff00;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(255, 255, 0, 0.3);
+        }
+        .game-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+        .game-title {
+            font-size: 24px;
+            color: #ffff00;
+            margin-bottom: 10px;
+        }
+        .game-description {
+            font-size: 14px;
+            color: #ccc;
+            margin-bottom: 15px;
+        }
+        .play-button {
+            background: linear-gradient(45deg, #4a9eff, #66b3ff);
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+        .play-button:hover {
+            transform: scale(1.05);
+        }
+        .play-button:active {
+            transform: scale(0.95);
+        }
+        .status-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .credits {
+            color: #00ff00;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div id="casino-container">
+        <h1 style="font-size: 48px; color: #ffff00; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); margin: 0;">
+            🎰 XP CASINO 🎰
+        </h1>
+        
+        <div class="game-grid">
+            <div class="game-card" onclick="playGame('slots')">
+                <div class="game-icon">🎰</div>
+                <div class="game-title">Slots</div>
+                <div class="game-description">
+                    Classic slot machine with multiple paylines and bonus features.
+                    Try your luck with various symbol combinations!
+                </div>
+                <button class="play-button">PLAY SLOTS</button>
+            </div>
+            
+            <div class="game-card" onclick="playGame('blackjack')">
+                <div class="game-icon">🂡</div>
+                <div class="game-title">Blackjack</div>
+                <div class="game-description">
+                    Classic casino card game. Get closer to 21 than the dealer without going over.
+                    Double down and split pairs for bigger wins!
+                </div>
+                <button class="play-button">PLAY BLACKJACK</button>
+            </div>
+            
+            <div class="game-card" onclick="playGame('roulette')">
+                <div class="game-icon">🎲</div>
+                <div class="game-title">Roulette</div>
+                <div class="game-description">
+                    European roulette with multiple betting options.
+                    Place your bets on numbers, colors, or sections!
+                </div>
+                <button class="play-button">PLAY ROULETTE</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="status-bar">
+        <div>Connected to: XP Casino Server</div>
+        <div class="credits">Credits: <span id="credits">1000</span></div>
+        <div>🎰 Good Luck!</div>
+    </div>
+
+    <script>
+        // Initialize credits from localStorage
+        let credits = parseInt(localStorage.getItem('casinoCredits')) || 1000;
+        document.getElementById('credits').textContent = credits;
+
+        // Create a credits manager object that can be accessed by parent window
+        window.casinoCredits = {
+            get: () => credits,
+            set: (value) => {
+                credits = value;
+                localStorage.setItem('casinoCredits', credits);
+                document.getElementById('credits').textContent = credits;
+            }
+        };
+
+        function playGame(game) {
+            // Send message to parent window to navigate
+            window.parent.postMessage({
+                type: 'navigate',
+                url: `casino-${game}.html`
+            }, '*');
+        }
+
+        // Listen for wallpaper change messages
+        window.addEventListener('message', function(event) {
+            // Accept messages from any origin since we're running locally
+            if (event.data.type === 'changeWallpaper') {
+                document.body.style.backgroundImage = `url('%24%7bevent.data.html')`;
+            }
+        });
+    </script>
+</body>
+
+<!-- Mirrored from hottubz.neocities.org/casino-home by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 13 Jan 2026 02:51:30 GMT -->
+</html> 

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from hottubz.neocities.org/guestbook by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 13 Jan 2026 02:51:30 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XP Guestbook</title>
+    <style>
+        body {
+            font-family: 'Tahoma', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #ECE9D8;
+            color: #000;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .window {
+            background: #fff;
+            border: 1px solid #0055EA;
+            border-radius: 3px;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+        }
+
+        .title-bar {
+            background: linear-gradient(to right, #0058E6, #3A93FF);
+            color: white;
+            padding: 5px 10px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+
+        .title-bar img {
+            width: 16px;
+            height: 16px;
+            margin-right: 5px;
+        }
+
+        .content {
+            padding: 15px;
+        }
+
+        .message-form {
+            background: #F5F4EA;
+            padding: 15px;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 10px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 5px;
+            border: 1px solid #7F9DB9;
+            background: white;
+            font-family: 'Tahoma', sans-serif;
+        }
+
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        button {
+            background: linear-gradient(to bottom, #F6F6F6, #DCDBDB);
+            border: 1px solid #7F9DB9;
+            padding: 3px 15px;
+            cursor: pointer;
+            font-family: 'Tahoma', sans-serif;
+        }
+
+        button:hover {
+            background: linear-gradient(to bottom, #F8F8F8, #E5E5E5);
+        }
+
+        .messages {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .message {
+            background: #F9F9F9;
+            border: 1px solid #DDD;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .message-header {
+            border-bottom: 1px solid #EEE;
+            padding-bottom: 5px;
+            margin-bottom: 5px;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .message-content {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .error {
+            color: red;
+            margin-bottom: 10px;
+        }
+
+        .success {
+            color: green;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="window">
+            <div class="title-bar">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAAbwAAAG8B8aLcQwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAB5SURBVDiNY2CgFWBkYGD4TwPzGBgYGP4zMDAIMDAwfGBgYPBHE/+ALg7CIIPuMzAw2DAwMPxnYGAQwKIGp1pigLqZGcUF6OGNITZq4KiBZBrIREcXGBgYPjIwMPwnI0x+YBNkxJGwkcMOWzpAzgvkGkItgHUyAgCuaBgR+zR/fwAAAABJRU5ErkJggg==" alt="Icon">
+                XP Guestbook
+            </div>
+            <div class="content">
+                <div class="message-form">
+                    <div id="status" class=""></div>
+                    <form id="guestbook-form">
+                        <div class="form-group">
+                            <label for="name">Name:</label>
+                            <input type="text" id="name" name="name" required maxlength="50">
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message:</label>
+                            <textarea id="message" name="message" required maxlength="500"></textarea>
+                        </div>
+                        <button type="submit">Sign Guestbook</button>
+                    </form>
+                </div>
+
+                <div class="messages" id="messages">
+                    <!-- Messages will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to load messages from guestbook.txt
+        async function loadMessages() {
+            try {
+                const response = await fetch('guestbook.txt');
+                if (!response.ok) {
+                    throw new Error('Failed to load messages');
+                }
+                const text = await response.text();
+                const messages = text.split('\n\n').filter(msg => msg.trim());
+                
+                const messagesContainer = document.getElementById('messages');
+                messagesContainer.innerHTML = '';
+
+                messages.reverse().forEach(msg => {
+                    const [header, ...content] = msg.split('\n');
+                    const [name, date] = header.split(' | ');
+                    
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = 'message';
+                    messageDiv.innerHTML = `
+                        <div class="message-header">
+                            <strong>${name}</strong> | ${date}
+                        </div>
+                        <div class="message-content">${content.join('\n')}</div>
+                    `;
+                    messagesContainer.appendChild(messageDiv);
+                });
+            } catch (error) {
+                console.error('Error loading messages:', error);
+                document.getElementById('status').textContent = 'Error loading messages. Please try again later.';
+                document.getElementById('status').className = 'error';
+            }
+        }
+
+        // Function to save a message
+        async function saveMessage(name, message) {
+            try {
+                const formData = new FormData();
+                formData.append('name', name);
+                formData.append('message', message);
+
+                const response = await fetch('save_message.php', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to save message');
+                }
+
+                document.getElementById('status').textContent = 'Message posted successfully!';
+                document.getElementById('status').className = 'success';
+                document.getElementById('guestbook-form').reset();
+                loadMessages();
+            } catch (error) {
+                console.error('Error saving message:', error);
+                document.getElementById('status').textContent = 'Error saving message. Please try again later.';
+                document.getElementById('status').className = 'error';
+            }
+        }
+
+        // Form submit handler
+        document.getElementById('guestbook-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('name').value.trim();
+            const message = document.getElementById('message').value.trim();
+
+            if (!name || !message) {
+                document.getElementById('status').textContent = 'Please fill in all fields.';
+                document.getElementById('status').className = 'error';
+                return;
+            }
+
+            await saveMessage(name, message);
+        });
+
+        // Load messages on page load
+        loadMessages();
+    </script>
+</body>
+
+<!-- Mirrored from hottubz.neocities.org/guestbook by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 13 Jan 2026 02:51:31 GMT -->
+</html> 
